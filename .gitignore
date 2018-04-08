@@ -1,2 +1,12 @@
+/target
+/project/target
+*.class
+*.iml
+*.ipr
+*.iws
+/.idea
+out
 /metastore_db
-derby.log
+/data
+._.DS_Store
+.DS_Store
