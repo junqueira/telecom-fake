@@ -20,7 +20,15 @@ Implantar uma ferramentas de big data em uma Telecom;
 
 .. image:: https://static.wixstatic.com/media/c04e44_2fad459154614c368a9194c436febaa6.jpg
    :target: http://slack.kelproject.com/
-  
+
+
+Acesse qualquer atributo do objeto Kubernetes::
+
+.. code:: python
+
+    pod = pykube.Pod.objects(api).filter(namespace="gondor-system").get(name="my-pod")
+    pod.obj["spec"]["containers"][0]["image"]
+
 Definição e descricao do problema (1 a 2 páginas)
 --------
 * Desenvolver solucão para verificar se a quota de internet já acabou. Ùlizando logs de transmissão das antenas, fontes de dados: (csv, logs, xml, json, bin …)
