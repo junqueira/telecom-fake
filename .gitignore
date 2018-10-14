@@ -11,3 +11,7 @@ out
 ._.DS_Store
 .DS_Store
 *.conf
+src/main/resources/arquivo_hash.txt
+src/main/resources/arquivo_referencia.txt
+src/main/resources/run-old.sh
+src/main/resources/application.conf
