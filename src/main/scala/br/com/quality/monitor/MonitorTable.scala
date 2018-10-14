@@ -1,15 +1,13 @@
-package br.com.qualidade.monitor
+package br.com.quality.monitor
 
 import org.apache.log4j.Logger
 import org.apache.spark.sql.functions._
 import org.apache.spark.sql.{DataFrame, SparkSession}
-import br.com.qualidade.MonitorFunc
-import br.com.qualidade.monitor.MonitorBase.log
-import br.com.qualidade.utils.{Data, SparkUtils}
-
+import br.com.quality.MonitorFunc
+import br.com.quality.monitor.MonitorBase.log
+import br.com.quality.utils.{Data, SparkUtils}
 import scala.concurrent.Future
 import org.apache.spark.sql.functions.lit
-
 import scala.collection.mutable.ListBuffer
 import scala.concurrent.ExecutionContext.Implicits.global
 
@@ -62,8 +60,8 @@ object MonitorTable {
         }
 
         def withCountLineTable ()(df: DataFrame): DataFrame = {
-            df.withColumn("qt_lnha_tble", lit("0")) // full scan - not running in cluster
-            // MonitorFunc.getCountLineTableUDF(col("no_base"), col("no_tble"), col("qt_tmnh_tble")))
+            df.withColumn("qt_lnha_tble", MonitorFunc.getCountLineTableUDF(
+                col("no_base"), col("no_tble"), col("qt_tmnh_tble")))
         }
 
         def withIndTableNew ()(df: DataFrame): DataFrame = {

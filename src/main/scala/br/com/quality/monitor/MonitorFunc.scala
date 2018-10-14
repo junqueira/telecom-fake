@@ -1,10 +1,10 @@
-package br.com.qualidade
+package br.com.quality
 
 import java.io.{PrintWriter, StringWriter}
-import br.com.qualidade.utils.SparkUtils
+import br.com.quality.utils.SparkUtils
 import org.apache.spark.sql.{DataFrame, SparkSession}
 import org.apache.spark.sql.functions.{lit, udf}
-import br.com.qualidade.utils.HiveUtils
+import br.com.quality.utils.HiveUtils
 import org.apache.log4j.Logger
 import scala.concurrent.{Await, Future}
 import scala.concurrent.ExecutionContext.Implicits.global

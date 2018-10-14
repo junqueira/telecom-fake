@@ -1,4 +1,4 @@
-package br.com.qualidade.monitor.model
+package br.com.quality.monitor.model
 
 case class MonitorObject(bases: List[Base])
 

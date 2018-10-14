@@ -1,6 +1,6 @@
-    package br.com.qualidade.monitor
+    package br.com.quality.monitor
 
-    import br.com.qualidade.MonitorFunc
+    import br.com.quality.MonitorFunc
     import org.apache.log4j.Logger
     import org.apache.spark.sql.{DataFrame, SparkSession}
 
@@ -9,7 +9,7 @@
     import java.util.concurrent.Executors
     import org.apache.spark.sql.{DataFrame, SparkSession, Row}
 
-    import br.com.qualidade.utils.SparkUtils
+    import br.com.quality.utils.SparkUtils
 
     import scala.concurrent.duration._
     import scala.concurrent.{Await, ExecutionContext, Future}
@@ -45,7 +45,7 @@
         }
 
         def saveMonitor(spark: SparkSession, df: DataFrame): Unit = {
-            val table = "p_desenvolvimento_db.tbgd_tdq_hstr_qlto_dia_tbla"
+            val table = "desenv.hstr_qlto_dia_tbla"
             df.write.mode("overwrite").insertInto(table)
         }
     }
