@@ -22,12 +22,12 @@ object HiveUtils {
 
 		private val tempDropAmostragemTez =
 			s"""
-				 |   drop table if exists p_desenvolvimento_db.tbgdt_tatlys_tmpr_qlto_amostras_tez
+				 |   drop table if exists desenv.qlto_amostras_tez
 				 |    """.stripMargin
 
 		private val tempAmostragemTez =
 			s"""
-				 |   create table p_desenvolvimento_db.tbgdt_tatlys_tmpr_qlto_amostras_tez as
+				 |   create table desenv.qlto_amostras_tez as
 				 |   {{sql}}
 				 |
 				|    """.stripMargin
@@ -61,46 +61,43 @@ object HiveUtils {
 		}
 
 		def getListOfColunsCastString(spark: SparkSession, tabela: String) : String = {
-			val df1 = spark.sql(getListOfColunsString.replace("{{table_name}}", tabela))
-			val list = df1.collect().map(_(0)).toList
-			var stringRet = ""
-			list.foreach(stringRet += "cast("+_+" as String),")
-			stringRet.substring(0, stringRet.length-1)
+				val df1 = spark.sql(getListOfColunsString.replace("{{table_name}}", tabela))
+				val list = df1.collect().map(_(0)).toList
+				var stringRet = ""
+				list.foreach(stringRet += "cast("+_+" as String),")
+				stringRet.substring(0, stringRet.length-1)
 		}
 
 		def getSqlSumOfNullsNotNulls(spark: SparkSession, sumofnulls: Boolean, tabela: String, where: String="", execSpark: Boolean= true) : String = {
-			val df1 = spark.sql(getListOfColunsString.replace("{{table_name}}", tabela))
-			val list = df1.collect().map(_(0)).toList
-			var stringRet = ""
-			val selectColumnsPart = if(sumofnulls) " 1 ELSE 0 END)+" else " 0 ELSE 1 END)+"
-			for (col <- list){
-				stringRet += "(CASE WHEN ("+col+" IS NULL or "+col+" = 'null') THEN "+selectColumnsPart
-			}
-			stringRet = stringRet.substring(0, stringRet.length-1)
-			sumOfNullsNotNulls.replace("{{table_name}}", tabela).replace("{{select_columns}}", stringRet).replace("{{where_filter}}", if (where.equals("")) "" else "and " + where)
+				val df1 = spark.sql(getListOfColunsString.replace("{{table_name}}", tabela))
+				val list = df1.collect().map(_(0)).toList
+				var stringRet = ""
+				val selectColumnsPart = if(sumofnulls) " 1 ELSE 0 END)+" else " 0 ELSE 1 END)+"
+				for (col <- list){
+					stringRet += "(CASE WHEN ("+col+" IS NULL or "+col+" = 'null') THEN "+selectColumnsPart
+				}
+				stringRet = stringRet.substring(0, stringRet.length-1)
+				sumOfNullsNotNulls.replace("{{table_name}}", tabela).replace("{{select_columns}}", stringRet).replace("{{where_filter}}", if (where.equals("")) "" else "and " + where)
 		}
 
 		def getSumOfNullsNotNulls(spark: SparkSession, sumofnulls: Boolean, tabela: String, where: String="", execSpark: Boolean= true) : Long = {
-			val sql = getSqlSumOfNullsNotNulls(spark, sumofnulls, tabela, where, execSpark)
-			if (execSpark) {
-				val df1 = spark.sql(sql)
-				df1.collectAsList().get(0).getAs[Long](0)
-			} else {
-				spark.sql(tempDropAmostragemTez)
-				beelineExec(tempAmostragemTez.replace("{{sql}}", sql))
-				val df2 = spark.sql("select * from p_desenvolvimento_db.tbgdt_tatlys_tmpr_qlto_amostras_tez")
-				df2.collectAsList().get(0).getAs[Long](0)
-			}
+				val sql = getSqlSumOfNullsNotNulls(spark, sumofnulls, tabela, where, execSpark)
+				if (execSpark) {
+						val df1 = spark.sql(sql)
+						df1.collectAsList().get(0).getAs[Long](0)
+				} else {
+						spark.sql(tempDropAmostragemTez)
+						beelineExec(tempAmostragemTez.replace("{{sql}}", sql))
+						val df2 = spark.sql("select * from desenv.qlto_amostras_tez")
+						df2.collectAsList().get(0).getAs[Long](0)
+				}
 		}
 
 		def beelineExec(hql: String, queue: String = "Qualidade"): String = {
 
 			val serversHive=List(
-				"brtlvlts0788co.bigdata.redecorp.br:2181",
-				"brtlvlts0789co.bigdata.redecorp.br:2181",
-				"brtlvlts0790co.bigdata.redecorp.br:2181",
-				"brtlvlts0791co.bigdata.redecorp.br:2181",
-				"brtlvlts0787co.bigdata.redecorp.br:2181")
+				"server.host.br:2181",
+				"server.host.br:2182")
 
 			val bl =
 				Seq("beeline",

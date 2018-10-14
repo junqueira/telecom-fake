@@ -1,5 +1,7 @@
 package br.com.quality.utils
 
+import java.io.{ByteArrayOutputStream, InputStream}
+
 import org.apache.hadoop.fs.{FileSystem, Path}
 import org.apache.spark.sql.SaveMode
 import org.apache.spark.sql.types.{StringType, StructField, StructType}
@@ -12,6 +14,23 @@ object Util {
         val s = math pow (10, p); (math floor n * s) / s
     }
 
+    def toBytes(in: InputStream): Array[Byte] = {
+        try {
+            val out = new ByteArrayOutputStream()
+
+            var length = 0
+            var buf = new Array[Byte](1024 * 8)
+            while(length != -1){
+              length = in.read(buf)
+              if(length > 0){
+                out.write(buf, 0, length)
+              }
+            }
+            out.toByteArray
+        } finally {
+            in.close()
+        }
+    }
 
     def getFile(spark: SparkSession, file: String = "", schema: Boolean = true): DataFrame = {
         if (schema) {

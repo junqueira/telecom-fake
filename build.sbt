@@ -14,3 +14,6 @@ libraryDependencies += "com.typesafe.play" %% "play-json" % "2.6.9"
 
 // === Storage - AWS === //
 libraryDependencies += "jp.co.bizreach" %% "aws-s3-scala" % "0.0.13"
+
+// === Config  === //
+libraryDependencies += "com.typesafe" % "config" % "1.3.2"

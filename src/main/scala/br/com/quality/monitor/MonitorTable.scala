@@ -55,7 +55,7 @@ object MonitorTable {
         }
 
         def withSizeTable ()(df: DataFrame): DataFrame = {
-            df.withColumn("qt_tmnh_tble",  //lit("0"))
+            df.withColumn("qt_tmnh_tble",
               MonitorFunc.getSizeTableUDF(col("no_base"), col("no_tble")))
         }
 

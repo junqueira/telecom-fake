@@ -138,6 +138,6 @@ object MonitorFunc {
 //                    e.printStackTrace()
 //                    "0.0"
             }
-        }
+    }
 
 }
