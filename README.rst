@@ -24,7 +24,7 @@ Implantar uma ferramentas de big data em uma Telecom;
 
 Acesse qualquer atributo do objeto Kubernetes::
 
-.. code:: python
+.. code:: scala
 
     pod = pykube.Pod.objects(api).filter(namespace="gondor-system").get(name="my-pod")
     pod.obj["spec"]["containers"][0]["image"]
