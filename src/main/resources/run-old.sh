@@ -20,7 +20,7 @@ while [ "$d" != "$enddate" ]; do
     day=$(TZ=BRST date -d "$d" +%Y%m%d)
 
     export SPARK_MAJOR_VERSION=2;
-    spark-submit quality-assembly-1.0.jar --fonte $fonte --dtfoto $day
+    spark-submit vrps-assembly-1.0.jar --fonte $fonte --dtfoto $day
     
     d=$(TZ=BRST date -I -d "$d + 1 day")
 done

@@ -1,4 +1,4 @@
-package br.com.quality.utils
+package br.com.vrps.utils
 
 import java.util.Date
 import java.text.SimpleDateFormat

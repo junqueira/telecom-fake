@@ -59,7 +59,7 @@ run ()
     timeout --preserve-status --foreground "$3" spark-submit decode-assembly-1.0.jar --fonte "$1" --dtfoto "$2" --repalertas "$4" >> "$log" 2> "$log"
 }
 
-spark-submit quality-assembly-1.0.jar --fonte "$1" --base "$2" --file "$3" --dict "$4" --dest "$5"
+spark-submit vrps-assembly-1.0.jar --fonte "$1" --base "$2" --file "$3" --dict "$4" --dest "$5"
 
 # Loop das datas
 d="$startdate"
