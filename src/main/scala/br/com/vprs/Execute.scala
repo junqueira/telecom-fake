@@ -3,6 +3,7 @@ package br.com.vprs
 import br.com.vprs.utils.SparkUtils
 import org.apache.log4j._
 import br.com.vprs.utils.{Util}
+import br.com.vprs.ingestion.IngestionVprs
 
 
 object Execute {
@@ -24,15 +25,15 @@ object Execute {
 
       val params = args.grouped(2).map(x => x(0).replace("--","") -> x(1)).toMap
       val fonte = params.getOrElse("fonte", "").toLowerCase
-      val dtfoto = params.getOrElse("dtfoto", "").toLowerCase
+      //val dtfoto = params.getOrElse("dtfoto", "").toLowerCase
 
-      if(fonte.isEmpty || dtfoto.isEmpty || args.contains("-h")) showHelp()
+      //if(fonte.isEmpty || dtfoto.isEmpty || args.contains("-h")) showHelp()
 
       val spark = SparkUtils.getSparkSession(fonte)
 
       log.info(s"**********************************************************************************")
       log.info(s"*** Fonte: $fonte")
-      log.info(s"*** DtFoto: $dtfoto")
+      //log.info(s"*** DtFoto: $dtfoto")
       log.info(s"**********************************************************************************")
 
       try {
@@ -41,7 +42,7 @@ object Execute {
               case "vprs" =>
                   log.info(s"ingestion vprs")
                   //val config = Util.getConfig(spark, base)
-                  //IngestionVprs.execute(spark, config, pathFile, pathDict, pathDest)
+                  IngestionVprs.execute(spark)
 
               case _ =>
                   log.error(s"Source not found!")

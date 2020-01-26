@@ -2,7 +2,6 @@ package br.com.vprs.utils
 
 import java.io.{ByteArrayOutputStream, InputStream}
 
-import org.apache.hadoop.fs.{FileSystem, Path}
 import org.apache.spark.sql.SaveMode
 import org.apache.spark.sql.types.{StringType, StructField, StructType}
 import org.apache.spark.sql.{DataFrame, SparkSession}
@@ -35,9 +34,12 @@ object Util {
     def getFile(spark: SparkSession, file: String = "", schema: Boolean = true): DataFrame = {
         if (schema) {
             val schemaString = spark.read.csv(file).first()(0).toString()
-            val fields = schemaString.split("\t").map(fieldName => StructField(fieldName, StringType, nullable = true))
+            val fields = schemaString.split("\t").map(fieldName => 
+                StructField(fieldName, StringType, nullable = true)
+            )
             val schema = StructType(fields)
-            val dfWithSchema = spark.read.option("header", "true").option("delimiter", "\t").schema(schema).csv(file)
+            val dfWithSchema = spark.read.option("header", "true")
+                .option("delimiter", "\t").schema(schema).csv(file)
             dfWithSchema
         } else {
             spark.read.csv(file)
@@ -58,11 +60,6 @@ object Util {
         } else {
             df
         }
-    }
-
-    case class Location(lat: Double, lon: Double)
-    trait DistanceCalcular {
-        def calculateDistanceInKilometer(userLocation: Location, warehouseLocation: Location): Int
     }
     
     def dataFrameToFile(spark: SparkSession, df: DataFrame, pathFile: String, separator: String="|"): Unit = {
