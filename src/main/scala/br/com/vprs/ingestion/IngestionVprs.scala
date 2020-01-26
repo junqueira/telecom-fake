@@ -1,5 +1,10 @@
 package br.com.vprs.ingestion
 
+import org.apache.spark.sql.SparkSession
+import org.apache.spark.sql.SaveMode
+import org.apache.spark.sql.hive.HiveContext;
+import org.apache.spark.SparkContext
+import org.apache.spark.SparkConf
 import org.apache.log4j.Logger
 import org.apache.spark.sql.functions.{lit}
 import org.apache.spark.sql.{SparkSession}

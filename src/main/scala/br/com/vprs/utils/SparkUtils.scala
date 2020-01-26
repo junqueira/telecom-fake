@@ -48,34 +48,69 @@ object SparkUtils {
       //    .config("mapreduce.job.queuename", queue)
       //    .enableHiveSupport()
       //    .getOrCreate()
-  //}
+      //}
 
-def getSparkSession(fonte: String = "Desenvolvimento", queue : String="vprs", qt_exec_master: String = "*"): SparkSession = {
-    SparkSession
-      .builder()
-      .appName(fonte)
-      .config("spark.master", "yarn")
-      .config("spark.yarn.queue", queue)
-      .config("spark.shuffle.service.enabled", "true")
-      .config("spark.shuffle.compress", "true")
-      .config("spark.shuffle.service.port","7337")
-      .config("spark.executor.cores", "50")
-      .config("spark.executor.memory", "100G")
-      .config("spark.yarn.executor.memoryOverhead", "8000")
-      .config("spark.driver.memory", "64G")
-      .config("spark.yarn.driver.memoryOverhead", "8000")
-      .config("spark.scheduler.mode", "FIFO")
-      .config("spark.ui.port", "4066")
-      .config("spark.driver.maxResultSize", "50G")
-      .config("spark.dynamicAllocation.enabled", "true")
-      .config("spark.dynamicAllocation.initialExecutors", "2")
-      .config("spark.dynamicAllocation.minExecutors", "2")
-      .config("spark.dynamicAllocation.maxExecutors", "52")
-      .config("tez.queue.name", queue)
-      .config("mapreduce.job.queuename", queue)
-      .config("hive.exec.dynamic.partition.mode", "nonstrict")
-      .config("spark.sql.broadcastTimeout", "36000")
-      .enableHiveSupport()
-      .getOrCreate()
-  }
+    def getSparkSession(fonte: String="vprs", queue: String="Desenvolvimento", qt_exec_master: String = "*"): SparkSession = {
+        SparkSession
+          .builder()
+          .appName("decode-"+ fonte)
+          .config("spark.master", "yarn")
+          .config("spark.yarn.queue", queue)
+          .config("spark.shuffle.service.enabled", "true")
+          .config("spark.shuffle.compress", "true")
+          .config("spark.shuffle.service.port","7337")
+          .config("spark.executor.cores", "6")
+          .config("spark.executor.memory", "80G")
+          .config("spark.yarn.executor.memoryOverhead", "40g")
+          .config("spark.driver.memory", "300G")
+          .config("spark.yarn.driver.memoryOverhead", "150g")
+          .config("spark.sql.shuffle.partitions", "2024")
+          .config("spark.default.parallelism", "2024")
+          .config("spark.scheduler.mode", "FIFO")
+          .config("spark.ui.port", "4066")
+          .config("spark.default.parallelism", "240")
+          .config("spark.dynamicAllocation.enabled", "true")
+          .config("spark.dynamicAllocation.initialExecutors", "8")
+          .config("spark.dynamicAllocation.minExecutors", "2")
+          .config("spark.dynamicAllocation.maxExecutors", "120")
+          .config("spark.hadoop.yarn.resourcemanager.webapp.address", "brtlvlts0077co.redecorp.br:8088")
+          .config("tez.queue.name", queue)
+          .config("mapreduce.job.queuename", queue)
+          .config("hive.exec.dynamic.partition.mode", "nonstrict")
+          .config("spark.sql.broadcastTimeout", "36000")
+          .enableHiveSupport()
+          .getOrCreate()
+    }
+
+def getSparkSessionTest(): SparkSession = {
+// fonte: String="", queue: String="vprs", qt_exec_master: String="*"
+var queue = "Qualidade"
+var fonte = "vprs"                        
+SparkSession.builder().
+appName("qualidade-"+ fonte).
+config("spark.master", "yarn").
+config("spark.yarn.queue", queue).
+config("spark.shuffle.service.enabled", "true").
+config("spark.shuffle.compress", "true").
+config("spark.shuffle.service.port","7337").
+config("spark.executor.cores", "2").
+config("spark.executor.memory", "32G").
+config("spark.yarn.executor.memoryOverhead", "8000").
+config("spark.driver.memory", "32G").
+config("spark.yarn.driver.memoryOverhead", "8000").
+config("spark.scheduler.mode", "FIFO").
+config("spark.ui.port", "4066").
+config("spark.dynamicAllocation.enabled", "true").
+config("spark.dynamicAllocation.initialExecutors", "8").
+config("spark.dynamicAllocation.minExecutors", "2").
+config("spark.dynamicAllocation.maxExecutors", "120").
+config("spark.hadoop.yarn.resourcemanager.webapp.address", "brtlvlts0077co.redecorp.br:8088").
+config("tez.queue.name", queue).
+config("mapreduce.job.queuename", queue).
+config("hive.exec.dynamic.partition.mode", "nonstrict").
+config("spark.sql.broadcastTimeout", "36000").
+enableHiveSupport().
+getOrCreate()
+}
+
 }

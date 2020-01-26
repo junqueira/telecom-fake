@@ -1,5 +1,6 @@
 package br.com.vprs
 
+
 import br.com.vprs.utils.SparkUtils
 import org.apache.log4j._
 import br.com.vprs.utils.{Util}
@@ -23,12 +24,13 @@ object Execute {
           case _ : Exception => showHelp()
       }
 
+      log.info(s"Init params")
       val params = args.grouped(2).map(x => x(0).replace("--","") -> x(1)).toMap
       val fonte = params.getOrElse("fonte", "").toLowerCase
-      //val dtfoto = params.getOrElse("dtfoto", "").toLowerCase
+      val dtfoto = params.getOrElse("dtfoto", "").toLowerCase
 
       //if(fonte.isEmpty || dtfoto.isEmpty || args.contains("-h")) showHelp()
-
+      log.info(s"Init session")
       val spark = SparkUtils.getSparkSession(fonte)
 
       log.info(s"**********************************************************************************")
